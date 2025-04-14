@@ -1,0 +1,175 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+"""The Clash"""
+type Clash {
+  """The id of the clash"""
+  id: ID!
+
+  """The peer that created the clash"""
+  createdByPeer: Peer!
+
+  """The title of the clash"""
+  title: String!
+
+  """The description of the clash"""
+  description: String!
+
+  """The date of the clash"""
+  date: DateTime!
+
+  """The location of the clash"""
+  location: String!
+
+  """The address of the clash"""
+  address: String!
+
+  """The participants of the clash"""
+  participants: [Peer!]!
+
+  """The picture url of the clash"""
+  pictureUrl: String!
+}
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
+type Peer {
+  """The id of the peer"""
+  id: Int!
+
+  """The full name of the peer"""
+  name: String!
+
+  """The gender of the peer"""
+  gender: Gender!
+
+  """The city of the peer. """
+  city: String!
+
+  """The country of the peer. """
+  country: String!
+
+  """The picture url of the peer. """
+  pictureUrl: String!
+
+  """The clashes the peer participates in"""
+  clashes: [Clash!]!
+}
+
+"""The gender of the peer"""
+enum Gender {
+  MALE
+  FEMALE
+}
+
+type Query {
+  peers: [Peer!]!
+  peer(id: Int!): Peer!
+  clashes: [Clash!]!
+  clash(id: ID!): Clash!
+}
+
+type Mutation {
+  createPeer(createPeerInput: CreatePeerInput!): Peer!
+  updatePeer(updatePeerInput: UpdatePeerInput!): Peer!
+  removePeer(id: Int!): Boolean!
+  createClash(createClashInput: CreateClashInput!): Clash!
+  updateClash(updateClashInput: UpdateClashInput!): Clash!
+  removeClash(id: Int!): Boolean!
+}
+
+input CreatePeerInput {
+  """The full name of the peer"""
+  name: String!
+
+  """The gender of the peer"""
+  gender: Gender!
+
+  """The city of the peer"""
+  city: String!
+
+  """The country of the peer"""
+  country: String!
+
+  """The picture URL of the peer"""
+  pictureUrl: String!
+}
+
+input UpdatePeerInput {
+  """The full name of the peer"""
+  name: String
+
+  """The gender of the peer"""
+  gender: Gender
+
+  """The city of the peer"""
+  city: String
+
+  """The country of the peer"""
+  country: String
+
+  """The picture URL of the peer"""
+  pictureUrl: String
+
+  """The ID of the peer"""
+  id: Int!
+}
+
+input CreateClashInput {
+  """The title of the clash"""
+  title: String!
+
+  """The description of the clash"""
+  description: String!
+
+  """The date of the clash"""
+  date: DateTime!
+
+  """The location of the clash"""
+  location: String!
+
+  """The address of the clash"""
+  address: String!
+
+  """The ID of the peer who created the clash"""
+  createdByPeerId: ID!
+
+  """The IDs of the participants of the clash"""
+  participantIds: [ID!]!
+
+  """The picture URL of the clash"""
+  pictureUrl: String!
+}
+
+input UpdateClashInput {
+  """The title of the clash"""
+  title: String
+
+  """The description of the clash"""
+  description: String
+
+  """The date of the clash"""
+  date: DateTime
+
+  """The location of the clash"""
+  location: String
+
+  """The address of the clash"""
+  address: String
+
+  """The ID of the peer who created the clash"""
+  createdByPeerId: ID
+
+  """The IDs of the participants of the clash"""
+  participantIds: [ID!]
+
+  """The picture URL of the clash"""
+  pictureUrl: String
+
+  """The ID of the clash to update"""
+  id: ID!
+}
