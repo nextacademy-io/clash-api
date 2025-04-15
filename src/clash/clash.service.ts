@@ -64,7 +64,13 @@ export class ClashService {
     id: number,
     updateClashInput: UpdateClashInput,
   ): Promise<Clash> {
-    const { createdByPeerId, participantIds, ...clashData } = updateClashInput;
+    const {
+      createdByPeerId,
+      participantIds,
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      id: _,
+      ...clashData
+    } = updateClashInput;
 
     // Find the existing clash
     const clash = await entityManager.findOne(Clash, {
