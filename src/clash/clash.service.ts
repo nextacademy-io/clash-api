@@ -24,13 +24,22 @@ export class ClashService {
     // Find participants
     const participants = await entityManager.findByIds(Peer, participantIds);
 
-    // Create the clash
+    // Create the clash with the foreign key properly set
     const clash = entityManager.create(Clash, {
       ...clashData,
-      createdByPeer: Promise.resolve(createdByPeer),
-      participants: Promise.resolve(participants),
+      createdByPeerId: createdByPeerId, // Set the foreign key directly
     });
-    return await entityManager.save(Clash, clash);
+
+    // Save the clash first
+    const savedClash = await entityManager.save(Clash, clash);
+
+    // Then set participants (many-to-many relationship)
+    if (participants.length > 0) {
+      savedClash.participants = Promise.resolve(participants);
+      await entityManager.save(Clash, savedClash);
+    }
+
+    return savedClash;
   }
 
   async findAll(entityManager: EntityManager): Promise<Clash[]> {
@@ -89,7 +98,7 @@ export class ClashService {
       if (!createdByPeer) {
         throw new Error(`Peer with ID ${createdByPeerId} not found`);
       }
-      clash.createdByPeer = Promise.resolve(createdByPeer);
+      clash.createdByPeerId = createdByPeerId; // Set the foreign key directly
     }
 
     // Update participants if provided

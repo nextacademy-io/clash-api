@@ -17,6 +17,9 @@ export class Clash {
   @PrimaryGeneratedColumn()
   id: number;
 
+  @Column({ name: 'createdByPeerId' })
+  createdByPeerId: number;
+
   @Field(() => Peer, { description: 'The peer that created the clash' })
   @ManyToOne(() => Peer, { nullable: false, lazy: true }) // Lazy relation
   @JoinColumn({ name: 'createdByPeerId' }) // Optional: Custom column name
